@@ -7,7 +7,7 @@ Music Controller
 
 Последняя версия:
 
-Скачать Music Controller
+[Скачать Music Controller](https://github.com/ostapenko-Nik/Music.Release/releases/tag/v1.0.0)
 
 Возможности
 Play / Pause
