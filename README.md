@@ -7,7 +7,7 @@ Music Controller
 
 Последняя версия:
 
-[Скачать Music Controller](https://github.com/ostapenko-Nik/Music.Release/releases/tag/v1.0.0)
+[Скачать Music Controller](https://github.com/ostapenko-Nik/Music.Release/releases/tag/v1.1.0)
 
 Возможности
 Play / Pause
@@ -22,4 +22,4 @@ VK Музыка
 YouTube Music
 Установка
 
-Скачайте .exe из последнего релиза и запустите его.
+Скачайте PlayerForGame-v1.1.0-win-x64.zip из последнего релиза, распакуйте всю папку и запустите VKMusicController.exe. Установка .NET не требуется.
