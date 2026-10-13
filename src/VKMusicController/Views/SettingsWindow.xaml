@@ -1,0 +1,168 @@
+<Window x:Class="VKMusicController.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PlayerForGame — Настройки" Width="1000" Height="760" MinWidth="900" MinHeight="680"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent" ResizeMode="CanResize"
+        WindowStartupLocation="CenterOwner" Foreground="{DynamicResource UiTextBrush}" UseLayoutRounding="True" Language="ru-RU">
+    <Window.Resources>
+        <Style TargetType="TextBlock"><Setter Property="Foreground" Value="{DynamicResource UiTextBrush}" /></Style>
+        <Style TargetType="CheckBox" BasedOn="{StaticResource UiCheckBox}"><Setter Property="Margin" Value="0,8,0,8" /></Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource UiTextBox}" />
+        <Style TargetType="ComboBox" BasedOn="{StaticResource UiComboBox}" />
+        <Style x:Key="SectionTitle" TargetType="TextBlock"><Setter Property="FontSize" Value="17" /><Setter Property="FontWeight" Value="SemiBold" /><Setter Property="Margin" Value="0,0,0,6" /></Style>
+        <Style x:Key="SectionDescription" TargetType="TextBlock"><Setter Property="FontSize" Value="12" /><Setter Property="Foreground" Value="{DynamicResource UiMutedBrush}" /><Setter Property="TextWrapping" Value="Wrap" /><Setter Property="Margin" Value="0,0,0,12" /><Setter Property="LineHeight" Value="19" /></Style>
+        <Style TargetType="TabItem">
+            <Setter Property="Foreground" Value="{DynamicResource UiMutedBrush}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" /><Setter Property="VerticalContentAlignment" Value="Stretch" /><Setter Property="Margin" Value="0,0,0,8" />
+            <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TabItem">
+                <Border x:Name="TabSurface" CornerRadius="11" Background="Transparent" Padding="16,13" BorderThickness="1" BorderBrush="Transparent">
+                    <ContentPresenter ContentSource="Header" HorizontalAlignment="Left" VerticalAlignment="Center" TextElement.FontWeight="SemiBold" />
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsSelected" Value="True"><Setter Property="Foreground" Value="{DynamicResource UiTextBrush}" /><Setter TargetName="TabSurface" Property="Background" Value="#353044" /><Setter TargetName="TabSurface" Property="BorderBrush" Value="#494054" /></Trigger>
+                    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="TabSurface" Property="BorderBrush" Value="{DynamicResource UiBorderBrush}" /></Trigger>
+                    <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="TabSurface" Property="BorderBrush" Value="{DynamicResource UiAccentBrush}" /></Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate></Setter.Value></Setter>
+        </Style>
+    </Window.Resources>
+    <Border Margin="8" CornerRadius="22" Background="{DynamicResource UiBackgroundBrush}" BorderBrush="{DynamicResource UiBorderBrush}" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions><RowDefinition Height="88" /><RowDefinition Height="*" /><RowDefinition Height="80" /></Grid.RowDefinitions>
+            <Grid Margin="28,18,24,10" MouseLeftButtonDown="OnHeaderMouseDown">
+                <StackPanel><TextBlock Text="Настройки" FontSize="25" FontWeight="SemiBold" /><TextBlock Text="Сделайте плеер удобным для себя" Foreground="{DynamicResource UiMutedBrush}" FontSize="12" Margin="0,5,0,0" /></StackPanel>
+                <Button Style="{StaticResource UiWindowButton}" Content="×" Command="{Binding CancelCommand}" ToolTip="Закрыть настройки" AutomationProperties.Name="Закрыть настройки" HorizontalAlignment="Right" VerticalAlignment="Top" />
+            </Grid>
+            <TabControl x:Name="SettingsTabs" Grid.Row="1" TabStripPlacement="Left" Background="Transparent" BorderThickness="0"
+                        HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <TabControl.Template><ControlTemplate TargetType="TabControl">
+                    <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="210" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                        <Border Background="{DynamicResource UiSidebarBrush}" BorderBrush="{DynamicResource UiBorderBrush}" BorderThickness="0,0,1,0" Padding="20,20">
+                            <Grid><Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                                <StackPanel IsItemsHost="True" KeyboardNavigation.TabIndex="1" />
+                                <StackPanel Grid.Row="2"><TextBlock Text="PLAYER FOR GAME" FontWeight="SemiBold" FontSize="10" Foreground="{DynamicResource UiMutedBrush}" /><TextBlock Text="Всё управление в одном месте" FontSize="10" Foreground="{DynamicResource UiMutedBrush}" Margin="0,6,0,0" /></StackPanel>
+                            </Grid>
+                        </Border>
+                        <ContentPresenter Grid.Column="1" x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="26,16,26,8"
+                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                    </Grid>
+                </ControlTemplate></TabControl.Template>
+                <TabItem Header="Общие">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel Margin="0,0,10,0">
+                            <Border Style="{StaticResource UiCard}" Margin="0,0,0,16">
+                                <StackPanel>
+                                    <TextBlock Text="Оформление" Style="{StaticResource SectionTitle}" />
+                                    <TextBlock Text="Выберите акцент для главного окна и настроек." Style="{StaticResource SectionDescription}" />
+                                    <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="190" /></Grid.ColumnDefinitions>
+                                        <TextBlock Text="Цветовая тема" FontSize="13" VerticalAlignment="Center" />
+                                        <ComboBox Grid.Column="1" ItemsSource="{Binding AvailableThemes}" SelectedItem="{Binding AppTheme}" />
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource UiCard}" Margin="0,0,0,16">
+                                <StackPanel>
+                                    <TextBlock Text="Запуск и работа в фоне" Style="{StaticResource SectionTitle}" />
+                                    <TextBlock Text="При автозапуске главное окно и настройки не открываются. Доступ к плееру остаётся в трее." Style="{StaticResource SectionDescription}" />
+                                    <CheckBox Content="Запускать вместе с Windows" IsChecked="{Binding StartWithWindows}" />
+                                    <CheckBox Content="Показывать оверлей при запуске" IsChecked="{Binding ShowOverlayOnLaunch}" />
+                                    <CheckBox Content="Открывать настройки при ручном запуске" IsChecked="{Binding ShowSettingsOnLaunch}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource UiCard}">
+                                <StackPanel>
+                                    <TextBlock Text="Уведомления" Style="{StaticResource SectionTitle}" />
+                                    <CheckBox Content="Уведомлять о смене трека" IsChecked="{Binding ShowTrackChangeNotification}" />
+                                    <Grid Margin="0,10,0,0"><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="100" /></Grid.ColumnDefinitions>
+                                        <TextBlock Text="Длительность, сек. (1–10)" FontSize="13" VerticalAlignment="Center" />
+                                        <TextBox Grid.Column="1" Text="{Binding NotificationDurationSeconds, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" HorizontalContentAlignment="Right" />
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="Оверлей">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel Margin="0,0,10,0">
+                            <Border Style="{StaticResource UiCard}" Margin="0,0,0,16">
+                                <StackPanel>
+                                    <TextBlock Text="Размер и внешний вид" Style="{StaticResource SectionTitle}" />
+                                    <TextBlock Text="Изменения применятся после сохранения настроек." Style="{StaticResource SectionDescription}" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="20" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                                        <StackPanel Margin="0,0,0,18"><TextBlock Text="Ширина, px (520–760)" FontSize="12" Foreground="{DynamicResource UiMutedBrush}" Margin="0,0,0,8" /><TextBox Text="{Binding OverlayWidth, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" /></StackPanel>
+                                        <StackPanel Grid.Column="2" Margin="0,0,0,18"><TextBlock Text="Высота, px (190–280)" FontSize="12" Foreground="{DynamicResource UiMutedBrush}" Margin="0,0,0,8" /><TextBox Text="{Binding OverlayHeight, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" /></StackPanel>
+                                        <StackPanel Grid.Row="1"><TextBlock Text="Непрозрачность (0,4–1)" FontSize="12" Foreground="{DynamicResource UiMutedBrush}" Margin="0,0,0,8" /><TextBox Text="{Binding OverlayOpacity, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" /></StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="2"><TextBlock Text="Скругление, px (4–32)" FontSize="12" Foreground="{DynamicResource UiMutedBrush}" Margin="0,0,0,8" /><TextBox Text="{Binding CornerRadius, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" /></StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource UiCard}">
+                                <StackPanel>
+                                    <TextBlock Text="Что показывать" Style="{StaticResource SectionTitle}" />
+                                    <TextBlock Text="Оставьте только те элементы, которые нужны во время игры." Style="{StaticResource SectionDescription}" />
+                                    <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                                        <StackPanel><CheckBox Content="Обложка трека" IsChecked="{Binding ShowArtwork}" /><CheckBox Content="Исполнитель" IsChecked="{Binding ShowArtist}" /><CheckBox Content="Альбом" IsChecked="{Binding ShowAlbum}" /></StackPanel>
+                                        <StackPanel Grid.Column="1"><CheckBox Content="Время и перемотка" IsChecked="{Binding ShowProgress}" /><CheckBox Content="Кнопки управления" IsChecked="{Binding ShowControls}" /></StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="Горячие клавиши">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel Margin="0,0,10,0">
+                            <TextBlock Text="Управление без выхода из игры" Style="{StaticResource SectionTitle}" />
+                            <TextBlock Text="Комбинации работают, даже когда окно плеера скрыто." Style="{StaticResource SectionDescription}" />
+                            <ItemsControl ItemsSource="{Binding HotkeySettings}">
+                                <ItemsControl.ItemTemplate><DataTemplate>
+                                    <Border Style="{StaticResource UiCard}" Padding="18" Margin="0,0,0,12">
+                                        <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="126" /></Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                                            <CheckBox Content="{Binding ActionName}" IsChecked="{Binding Enabled}" FontWeight="SemiBold" Margin="0,0,0,12" />
+                                            <WrapPanel Grid.Row="1">
+                                                <CheckBox Content="Ctrl" IsChecked="{Binding Ctrl}" Margin="0,0,16,0" />
+                                                <CheckBox Content="Alt" IsChecked="{Binding Alt}" Margin="0,0,16,0" />
+                                                <CheckBox Content="Shift" IsChecked="{Binding Shift}" Margin="0,0,16,0" />
+                                                <CheckBox Content="Win" IsChecked="{Binding Win}" Margin="0" />
+                                            </WrapPanel>
+                                            <StackPanel Grid.Column="1" Grid.RowSpan="2" Margin="14,0,0,0"><TextBlock Text="Клавиша" FontSize="10" Foreground="{DynamicResource UiMutedBrush}" Margin="0,0,0,6" /><ComboBox ItemsSource="{Binding AvailableKeys}" SelectedItem="{Binding Key}" /></StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate></ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="Расширение VK">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel Margin="0,0,10,0">
+                            <Border Style="{StaticResource UiCard}" Margin="0,0,0,16">
+                                <StackPanel>
+                                    <TextBlock Text="Громкость только для VK" Style="{StaticResource SectionTitle}" />
+                                    <TextBlock Text="Расширение для Chrome или Edge регулирует громкость музыки VK. Звук игры и других вкладок остаётся прежним." Style="{StaticResource SectionDescription}" />
+                                    <TextBlock Text="01   Откройте chrome://extensions или edge://extensions.&#10;&#10;02   Включите режим разработчика.&#10;&#10;03   Нажмите «Загрузить распакованное расширение»&#10;        и выберите папку BrowserExtension.&#10;&#10;04   Откройте VK и включите музыку." FontSize="13" TextWrapping="Wrap" LineHeight="22" Margin="0,4,0,22" />
+                                    <Button Content="Открыть папку расширения" Style="{StaticResource UiPrimaryButton}" Command="{Binding OpenExtensionFolderCommand}" HorizontalAlignment="Left" />
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource UiCard}"><StackPanel><TextBlock Text="Настройте удобные комбинации" Style="{StaticResource SectionTitle}" /><TextBlock Text="Громкость и отключение звука настраиваются на вкладке «Горячие клавиши»." Style="{StaticResource SectionDescription}" Margin="0" /></StackPanel></Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+            <Border Grid.Row="2" BorderBrush="{DynamicResource UiBorderBrush}" BorderThickness="0,1,0,0" Padding="28,18">
+                <Grid>
+                    <TextBlock Text="Изменения сохраняются на этом компьютере" Foreground="{DynamicResource UiMutedBrush}" FontSize="11" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Отмена" Command="{Binding CancelCommand}" Style="{StaticResource UiButton}" Margin="0,0,10,0" />
+                        <Button Content="Сохранить изменения" Command="{Binding SaveCommand}" Style="{StaticResource UiPrimaryButton}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

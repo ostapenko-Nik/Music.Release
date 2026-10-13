@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "PlayerForGame — громкость VK",
+  "version": "1.0.0",
+  "description": "Меняет громкость музыкального плеера VK по хоткеям PlayerForGame.",
+  "minimum_chrome_version": "120",
+  "permissions": ["scripting", "alarms"],
+  "host_permissions": [
+    "https://vk.com/*", "https://www.vk.com/*",
+    "https://vk.ru/*", "https://www.vk.ru/*",
+    "https://music.vk.com/*", "https://music.vk.ru/*"
+  ],
+  "background": { "service_worker": "background.js" },
+  "action": { "default_popup": "popup.html", "default_title": "Громкость VK" },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src ws://127.0.0.1:43821"
+  }
+}

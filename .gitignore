@@ -1,0 +1,13 @@
+**/bin/
+**/obj/
+.vs/
+.idea/
+*.user
+*.suo
+*.log
+*.zip
+.env
+.env.*
+settings.json
+appsettings.Local.json
+appsettings.Development.json
