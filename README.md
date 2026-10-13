@@ -2,9 +2,9 @@
 
 Музыкальный пульт для Windows: горячие клавиши, оверлей, перемотка и работа в фоне.
 
-**Актуальная версия: 1.1.1**
+**Актуальная версия: 1.1.2**
 
-[Скачать для Windows x64](https://github.com/ostapenko-Nik/Music.Release/releases/download/v1.1.1/PlayerForGame-v1.1.1-win-x64.zip) · [Описание релиза](https://github.com/ostapenko-Nik/Music.Release/releases/tag/v1.1.1)
+[Скачать для Windows x64](https://github.com/ostapenko-Nik/Music.Release/releases/download/v1.1.2/PlayerForGame-v1.1.2-win-x64.zip) · [Описание релиза](https://github.com/ostapenko-Nik/Music.Release/releases/tag/v1.1.2)
 
 ## Установка и обновление
 
@@ -17,9 +17,10 @@
 
 ## Возможности
 
+- Простая иконка ноты у приложения, ярлыка и значка в трее.
 - Главное окно, настройки по вкладкам и три цветовые темы.
 - Оверлей с обложкой, кнопками и перемоткой до нужной секунды.
-- Новое уведомление о треке: плотный фон, скруглённая обложка, закрытие и открытие плеера по клику.
+- Новое уведомление о треке: плотный фон, скруглённая обложка, кнопка закрытия. Карточка и текст не выполняют переходов.
 - Уведомления не перехватывают фокус у игры.
 - При автозапуске главное окно и настройки скрыты; оверлей показывается согласно настройке.
 - Двойной щелчок по значку в трее открывает главное окно.
@@ -43,9 +44,9 @@
 
 Из готовой сборки, с демонстрационной обложкой.
 
-![Уведомление](https://github.com/ostapenko-Nik/Music.Release/releases/download/v1.1.1/notification.png)
+![Уведомление](https://github.com/ostapenko-Nik/Music.Release/releases/download/v1.1.2/notification.png)
 
-![Главное окно](https://github.com/ostapenko-Nik/Music.Release/releases/download/v1.1.1/main-menu.png)
+![Главное окно](https://github.com/ostapenko-Nik/Music.Release/releases/download/v1.1.2/main-menu.png)
 
 ## Сборка из исходников
 
@@ -53,7 +54,7 @@
 
 ```powershell
 dotnet run --project src/VKMusicController/VKMusicController.csproj -c Debug
-dotnet publish src/VKMusicController/VKMusicController.csproj -c Release -r win-x64 --self-contained true -o src/VKMusicController/bin/Releases/v1.1.1/publish
+dotnet publish src/VKMusicController/VKMusicController.csproj -c Release -r win-x64 --self-contained true -o src/VKMusicController/bin/Releases/v1.1.2/publish
 ```
 
 ## Проверки

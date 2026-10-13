@@ -1,6 +1,5 @@
 using System.IO;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using VKMusicController.Models;
 
@@ -8,13 +7,10 @@ namespace VKMusicController.Views;
 
 public partial class TrackNotificationWindow : Window
 {
-    private readonly Action? _openPlayer;
-
-    public TrackNotificationWindow(MediaTrackInfo track, Action? openPlayer = null)
+    public TrackNotificationWindow(MediaTrackInfo track)
     {
         InitializeComponent();
         DataContext = track;
-        _openPlayer = openPlayer;
         if (string.IsNullOrWhiteSpace(track.Artist))
             TrackArtist.Visibility = Visibility.Collapsed;
         if (track.ArtworkData is not { Length: > 0 })
@@ -35,12 +31,6 @@ public partial class TrackNotificationWindow : Window
         {
             // Keep the music placeholder when a browser supplies an invalid thumbnail.
         }
-    }
-
-    private void OnOpenPlayerClicked(object sender, MouseButtonEventArgs e)
-    {
-        _openPlayer?.Invoke();
-        Close();
     }
 
     private void OnDismissClicked(object sender, RoutedEventArgs e)

@@ -132,8 +132,7 @@ internal static class Program
         Check(true, "64 overlay layouts fit at minimum and maximum sizes");
 
         var notificationTrack = new MediaTrackInfo { Title = "Смерть луны", Artist = "Asper X", IsPlaying = true };
-        var openCount = 0;
-        var notification = new TrackNotificationWindow(notificationTrack, () => openCount++);
+        var notification = new TrackNotificationWindow(notificationTrack);
         var notificationContent = Layout(notification, new Size(400,140));
         CheckBounds(notificationContent, notificationContent, 16);
         Check(!notification.ShowActivated, "track notification does not steal focus from the game");
@@ -151,13 +150,24 @@ internal static class Program
         Check(true, "notifications fit long titles and missing or invalid artwork");
         notification.Opacity = 0;
         notification.Show();
-        ((Border)notification.FindName("NotificationCard")).RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, Environment.TickCount, MouseButton.Left)
-            { RoutedEvent = UIElement.MouseLeftButtonUpEvent });
-        Check(openCount == 1 && !notification.IsVisible, "notification click opens the player once and closes the card");
-        var dismiss = new TrackNotificationWindow(notificationTrack, () => openCount++);
+        var windowCount = app.Windows.Count;
+        foreach (var name in new[] { "NotificationCard", "TrackTitle", "TrackArtist" })
+            ((UIElement)notification.FindName(name)).RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, Environment.TickCount, MouseButton.Left)
+                { RoutedEvent = UIElement.MouseLeftButtonUpEvent });
+        Check(notification.IsVisible && app.Windows.Count == windowCount,
+            "clicks on notification card, title and artist neither navigate nor dismiss it");
+        notification.Close();
+        var dismiss = new TrackNotificationWindow(notificationTrack);
         dismiss.Opacity = 0; dismiss.Show();
         ((Button)dismiss.FindName("DismissButton")).RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
-        Check(openCount == 1 && !dismiss.IsVisible, "dismiss button closes notification without opening player");
+        Check(!dismiss.IsVisible, "dismiss button still closes the non-clickable notification");
+        using (var iconStream = System.Windows.Application.GetResourceStream(
+            new Uri("pack://application:,,,/VKMusicController;component/Assets/app.ico")).Stream)
+        {
+            var icon = new IconBitmapDecoder(iconStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+            Check(icon.Frames.Count == 7 && icon.Frames.Any(frame => frame.PixelWidth == 16) && icon.Frames.Any(frame => frame.PixelWidth == 256),
+                "embedded music note icon contains all seven resolutions");
+        }
         NotificationService.ShowTrackNotification(notificationTrack, 10); Drain();
         var firstToast = app.Windows.OfType<TrackNotificationWindow>().Single();
         NotificationService.ShowTrackNotification(notificationTrack, 1); Drain();
@@ -215,9 +225,9 @@ internal static class Program
             Save(overlayWindow, new Size(520,190), Path.Combine(directory,"overlay-seek.png"));
             var notificationPreview = new TrackNotificationWindow(notificationTrack);
             ((Image)notificationPreview.FindName("ArtworkImage")).Source = MakeArtwork();
-            Save(notificationPreview, new Size(400,140), Path.Combine(directory,"notification-v1.1.1.png"));
+            Save(notificationPreview, new Size(400,140), Path.Combine(directory,"notification-v1.1.2.png"));
             ThemeService.Apply("Ocean");
-            Save(notificationPreview, new Size(400,140), Path.Combine(directory,"notification-ocean-v1.1.1.png"));
+            Save(notificationPreview, new Size(400,140), Path.Combine(directory,"notification-ocean-v1.1.2.png"));
             ThemeService.Apply("Nebula"); notificationPreview.Close();
             if (liveTrack != null)
             {
@@ -227,7 +237,7 @@ internal static class Program
                     : "Nebula";
                 ThemeService.Apply(savedTheme ?? "Nebula");
                 var livePreview = new TrackNotificationWindow(liveTrack);
-                Save(livePreview, new Size(400,140), Path.Combine(directory,"notification-current-v1.1.1.png"));
+                Save(livePreview, new Size(400,140), Path.Combine(directory,"notification-current-v1.1.2.png"));
                 livePreview.Close(); ThemeService.Apply("Nebula");
             }
             preferences.Close(); main.Close();

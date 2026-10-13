@@ -10,6 +10,7 @@
         <Style TargetType="Window">
             <Setter Property="FontFamily" Value="Segoe UI" />
             <Setter Property="FontSize" Value="12" />
+            <Setter Property="Icon" Value="pack://application:,,,/VKMusicController;component/Assets/app.ico" />
         </Style>
         </ResourceDictionary>
     </Application.Resources>

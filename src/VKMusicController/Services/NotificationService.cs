@@ -18,8 +18,7 @@ namespace VKMusicController.Services
         private static void ShowOnUiThread(MediaTrackInfo track, int durationSeconds)
         {
             _activeWindow?.Close();
-            var window = new TrackNotificationWindow(track,
-                () => ((App)System.Windows.Application.Current).ShowMainWindow())
+            var window = new TrackNotificationWindow(track)
             {
                 Opacity = 0
             };

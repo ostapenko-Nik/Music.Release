@@ -16,6 +16,7 @@ namespace VKMusicController.Services
         private readonly StartupService _startupService;
         private readonly LoggerService _logger;
         private readonly NotifyIcon _notifyIcon;
+        private Icon? _applicationIcon;
 
         public TrayService(AppSettings settings, OverlayService overlayService, MediaSessionService mediaService, HotkeyService hotkeyService, SettingsService settingsService, StartupService startupService, LoggerService logger)
         {
@@ -31,7 +32,13 @@ namespace VKMusicController.Services
 
         public void Initialize()
         {
-            _notifyIcon.Icon = SystemIcons.Application;
+            using (var resource = System.Windows.Application.GetResourceStream(
+                       new Uri("pack://application:,,,/VKMusicController;component/Assets/app.ico")).Stream)
+            using (var icon = new Icon(resource, new System.Drawing.Size(32, 32)))
+            {
+                _applicationIcon = (Icon)icon.Clone();
+            }
+            _notifyIcon.Icon = _applicationIcon;
             _notifyIcon.Visible = true;
             _notifyIcon.Text = "PlayerForGame";
             _notifyIcon.DoubleClick += OnDoubleClick;
@@ -88,6 +95,7 @@ namespace VKMusicController.Services
         {
             _notifyIcon.Visible = false;
             _notifyIcon.Dispose();
+            _applicationIcon?.Dispose();
         }
     }
 }

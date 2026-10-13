@@ -1,6 +1,6 @@
 [Setup]
 AppName=VK Music Controller
-AppVersion=1.1.1
+AppVersion=1.1.2
 DefaultDirName={pf}\VKMusicController
 DefaultGroupName=VK Music Controller
 OutputBaseFilename=VKMusicControllerInstaller
@@ -9,7 +9,7 @@ SolidCompression=yes
 ArchitecturesAllowed=x64
 
 [Files]
-Source: "..\src\VKMusicController\bin\Releases\v1.1.1\publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\src\VKMusicController\bin\Releases\v1.1.2\publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\VK Music Controller"; Filename: "{app}\VKMusicController.exe"
