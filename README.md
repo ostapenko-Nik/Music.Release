@@ -4,16 +4,21 @@
 
 **Актуальная версия: 1.1.2**
 
-[Скачать для Windows x64](https://github.com/ostapenko-Nik/Music.Release/releases/download/v1.1.2/PlayerForGame-v1.1.2-win-x64.zip) · [Описание релиза](https://github.com/ostapenko-Nik/Music.Release/releases/tag/v1.1.2)
+**[Скачать установщик для Windows (.exe)](https://github.com/ostapenko-Nik/Music.Release/releases/download/v1.1.2/PlayerForGame-v1.1.2-Setup-x64.exe)**
+
+[ZIP без установки](https://github.com/ostapenko-Nik/Music.Release/releases/download/v1.1.2/PlayerForGame-v1.1.2-win-x64.zip) · [Описание релиза](https://github.com/ostapenko-Nik/Music.Release/releases/tag/v1.1.2)
 
 ## Установка и обновление
 
 1. Завершите старую версию через **Exit** в меню трея.
-2. Распакуйте весь ZIP в постоянную папку и запустите **VKMusicController.exe**. Среда .NET включена в архив.
+2. Скачайте **PlayerForGame-v1.1.2-Setup-x64.exe**, запустите установщик и следуйте шагам. Он создаст ярлык **PlayerForGame** в меню «Пуск» и запись для удаления программы. Права администратора и отдельная установка .NET не требуются.
+   Для ZIP-версии распакуйте весь архив в постоянную папку и запустите **VKMusicController.exe**.
 3. Откройте музыку в браузере.
 4. Для громкости только VK установите папку **BrowserExtension** как распакованное расширение Chrome/Edge. [Инструкция](src/VKMusicController/BrowserExtension/README.md).
 
 Настройки сохраняются в `%APPDATA%\VKMusicController\settings.json` и остаются на месте при обновлении.
+
+Установщик пока без цифровой подписи, поэтому Windows может показать предупреждение о неизвестном издателе.
 
 ## Возможности
 
@@ -72,4 +77,12 @@ UI-проверки покрывают перемотку, автозапуск,
 ```powershell
 dotnet build tests/PlayerUi.Tests/PlayerUi.Tests.csproj -p:PlayerPublishedAssembly=C:/path/to/publish/VKMusicController.dll -o ui-check
 dotnet ui-check/PlayerUi.Tests.dll
+```
+
+## Сборка установщика
+
+После публикации приложения из исходников установщик собирается с помощью Inno Setup 6.3 или новее:
+
+```powershell
+ISCC.exe installer/VKMusicController.iss
 ```

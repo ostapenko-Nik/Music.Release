@@ -1,0 +1,14 @@
+PlayerForGame 1.1.2
+
+Приложение установлено. Запуск: меню «Пуск» → PlayerForGame.
+Среда .NET включена, устанавливать её отдельно не нужно.
+
+Для громкости только музыки VK подключите папку BrowserExtension
+как распакованное расширение Chrome или Edge.
+Подробности: BrowserExtension\README.md, а также вкладка «Расширение VK» в настройках.
+
+Настройки сохраняются в %APPDATA%\VKMusicController\settings.json.
+Удалить программу можно через «Установленные приложения» Windows.
+При обновлении сначала завершите старую версию через Exit в меню трея.
+
+https://github.com/ostapenko-Nik/Music.Release
